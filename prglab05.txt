@@ -1,0 +1,906 @@
+mysql> create database 4mh18cs41505
+    -> ;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| 4mh18cs41505       |
+| 5ainternal         |
+| Library            |
+| cdet               |
+| college            |
+| company            |
+| company1           |
+| deepika            |
+| library_nisarga    |
+| movie              |
+| mycollege          |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| sushma             |
+| sys                |
++--------------------+
+17 rows in set (0.01 sec)
+
+mysql> use 4mh18cs41505;
+Database changed
+mysql> create table employee(ssn int primary key,
+    -> name varchar(20),
+    -> addr varchar(30),
+    -> sex char(1),
+    -> salary int,
+    -> superssn int,
+    -> dno int);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc employee;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| ssn      | int(11)     | NO   | PRI | NULL    |       |
+| name     | varchar(20) | YES  |     | NULL    |       |
+| addr     | varchar(30) | YES  |     | NULL    |       |
+| sex      | char(1)     | YES  |     | NULL    |       |
+| salary   | int(11)     | YES  |     | NULL    |       |
+| superssn | int(11)     | YES  |     | NULL    |       |
+| dno      | int(11)     | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+7 rows in set (0.01 sec)
+mysql> create table dept(dno int primary key,
+    -> dname varchar(20),
+    -> mgrssn int,
+    -> mgrstartdate date,
+    -> foreign key(mgrssn) references employee(ssn));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc dept;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| dno          | int(11)     | NO   | PRI | NULL    |       |
+| dname        | varchar(20) | YES  |     | NULL    |       |
+| mgrssn       | int(11)     | YES  | MUL | NULL    |       |
+| mgrstartdate | date        | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+mysql> alter table employee add foreign key(superssn) references employee(ssn);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employee;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| ssn      | int(11)     | NO   | PRI | NULL    |       |
+| name     | varchar(20) | YES  |     | NULL    |       |
+| addr     | varchar(30) | YEmysql> create table dlocation(dno int,dloc varchar(20),
+    -> primary key(dno,dloc),
+    -> foreign key(dno) references dept(dno));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc dlocation;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| dno   | int(11)     | NO   | PRI | NULL    |       |
+| dloc  | varchar(20) | NO   | PRI | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+S  |     | NULL    |       |
+| sex      | char(1)     | YES  |     | NULL    |       |
+| salary   | int(11)     | YES  |     | NULL    |       |
+| superssn | int(11)     | YES  | MUL | NULL    |       |
+| dno      | int(11)     | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+7 rows in set (0.01 sec)
+
+mysql> alter table employee add foreign key(dno) references dept(dno);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc dept;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| dno          | int(11)     | NO   | PRI | NULL    |       |
+| dname        | varchar(20) | YES  |     | NULL    |       |
+| mgrssn       | int(11)     | YES  | MUL | NULL    |       |
+| mgrstartdate | date        | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> desc employee;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| ssn      | int(11)     | NO   | PRI | NULL    |       |
+| name     | varchar(20) | YES  |     | NULL    |       |
+| addr     | varchar(30) | YES  |     | NULL    |       |
+| sex      | char(1)     | YES  |     | NULL    |       |
+| salary   | int(11)     | YES  |     | NULL    |       |
+| superssn | int(11)     | YES  | MUL | NULL    |       |
+| dno      | int(11)     | YES  | MUL | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> create table dlocation(dno int,dloc varchar(20),
+    -> primary key(dno,dloc),
+    -> foreign key(dno) references dept(dno));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc dlocation;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| dno   | int(11)     | NO   | PRI | NULL    |       |
+| dloc  | varchar(20) | NO   | PRI | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+mysql> create table project(
+    -> pno int primary key,
+    -> pname varchar(20),
+    -> plocation varchar(20),
+    -> dno int,
+    -> foreign key(dno) references dept(dno));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc project;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| pno       | int(11)     | NO   | PRI | NULL    |       |
+| pname     | varchar(20) | YES  |     | NULL    |       |
+| plocation | varchar(20) | YES  |     | NULL    |       |
+| dno       | int(11)     | YES  | MUL | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+mysql> create table workson(
+    -> ssn int,
+    -> pno int,
+    -> hours int,
+    -> primary key(ssn,pno),
+    -> foreign key(ssn) references employe(ssn),                                                           
+-> foreign key(pno) references project(pno));                                                            
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc workson;
++-------+---------+------+-----+---------+-------+
+| Field | Type    | Null | Key | Default | Extra |
++-------+---------+------+-----+---------+-------+
+| ssn   | int(11) | NO   | PRI | NULL    |       |
+| pno   | int(11) | NO   | PRI | NULL    |       |
+| hours | int(11) | YES  |     | NULL    |       |
++-------+---------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> desc employee;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| ssn      | int(11)     | NO   | PRI | NULL    |       |
+| name     | varchar(20) | YES  |     | NULL    |       |
+| addr     | varchar(30) | YES  |     | NULL    |       |
+| sex      | char(1)     | YES  |     | NULL    |       |
+| salary   | int(11)     | YES  |     | NULL    |       |
+| superssn | int(11)     | YES  | MUL | NULL    |       |
+| dno      | int(11)     | YES  | MUL | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> desc dept;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| dno          | int(11)     | NO   | PRI | NULL    |       |
+| dname        | varchar(20) | YES  |     | NULL    |       |
+| mgrssn       | int(11)     | YES  | MUL | NULL    |       |
+| mgrstartdate | date        | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> desc dlocation;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| dno   | int(11)     | NO   | PRI | NULL    |       |
+| dloc  | varchar(20) | NO   | PRI | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> desc project;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| pno       | int(11)     | NO   | PRI | NULL    |       |
+| pname     | varchar(20) | YES  |     | NULL    |       |
+| plocation | varchar(20) | YES  |     | NULL    |       |
+| dno       | int(11)     | YES  | MUL | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> desc workson;
++-------+---------+------+-----+---------+-------+
+| Field | Type    | Null | Key | Default | Extra |
++-------+---------+------+-----+---------+-------+
+| ssn   | int(11) | NO   | PRI | NULL    |       |
+| pno   | int(11) | NO   | PRI | NULL    |       |
+| hours | int(11) | YES  |     | NULL    |       |
++-------+---------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+mysql> desc employee;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| ssn      | int(11)     | NO   | PRI | NULL    |       |
+| name     | varchar(20) | YES  |     | NULL    |       |
+| addr     | varchar(30) | YES  |     | NULL    |       |
+| sex      | char(1)     | YES  |     | NULL    |       |
+| salary   | int(11)     | YES  |     | NULL    |       |
+| superssn | int(11)     | YES  | MUL | NULL    |       |
+| dno      | int(11)     | YES  | MUL | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+mysql> insert into employee values(100,'kumar','mysore','m',50000,NULL,NULL);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into employee values(101,'rani','mysore','f',20000,NULL,NULL);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into employee values(102,'scott','bangalore','m',80000,NULL,NULL);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into employee values(103,'manu','bangalore','m',80000,NULL,NULL);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into employee values(104,'thanu','bangalore','f',30000,NULL,NULL);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into employee values(105,'bhalu','kolkatha','m',30000,NULL,NULL);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into employee values(106,'jayanth','kolkatha','m',60000,NULL,NULL);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into employee values(107,'pallavi','kerala','f',60000,NULL,NULL);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into employee values(108,'yash','kerala','m',60000,NULL,NULL);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into employee values(109,'ashwini','chennai','f',60000,NULL,NULL);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from employee;
++-----+---------+-----------+------+--------+----------+------+
+| ssn | name    | addr      | sex  | salary | superssn | dno  |
++-----+---------+-----------+------+--------+----------+------+
+| 100 | kumar   | mysore    | m    |  50000 |     NULL | NULL |
+| 101 | rani    | mysore    | f    |  20000 |     NULL | NULL |
+| 102 | scott   | bangalore | m    |  80000 |     NULL | NULL |
+| 103 | manu    | bangalore | m    |  80000 |     NULL | NULL |
+| 104 | thanu   | bangalore | f    |  30000 |     NULL | NULL |
+| 105 | bhalu   | kolkatha  | m    |  30000 |     NULL | NULL |
+| 106 | jayanth | kolkatha  | m    |  60000 |     NULL | NULL |
+| 107 | pallavi | kerala    | f    |  60000 |     NULL | NULL |
+| 108 | yash    | kerala    | m    |  60000 |     NULL | NULL |
+| 109 | ashwini | chennai   | f    |  60000 |     NULL | NULL |
++-----+---------+-----------+------+--------+----------+------+
+10 rows in set (0.00 sec)
+
+mysql> update employee set superssn=100 where ssn=101 or ssn=102 or ssn=103;
+Query OK, 3 rows affected (0.01 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> select * from employee;
++-----+---------+-----------+------+--------+----------+------+
+| ssn | name    | addr      | sex  | salary | superssn | dno  |
++-----+---------+-----------+------+--------+----------+------+
+| 100 | kumar   | mysore    | m    |  50000 |     NULL | NULL |
+| 101 | rani    | mysore    | f    |  20000 |      100 | NULL |
+| 102 | scott   | bangalore | m    |  80000 |      100 | NULL |
+| 103 | manu    | bangalore | m    |  80000 |      100 | NULL |
+| 104 | thanu   | bangalore | f    |  30000 |     NULL | NULL |
+| 105 | bhalu   | kolkatha  | m    |  30000 |     NULL | NULL |
+| 106 | jayanth | kolkatha  | m    |  60000 |     NULL | NULL |
+| 107 | pallavi | kerala    | f    |  60000 |     NULL | NULL |
+| 108 | yash    | kerala    | m    |  60000 |     NULL | NULL |
+| 109 | ashwini | chennai   | f    |  60000 |     NULL | NULL |
++-----+---------+-----------+------+--------+----------+------+
+10 rows in set (0.00 sec)
+
+mysql> update employee set superssn=104 where ssn=105 or ssn=106 or ssn=107;
+Query OK, 3 rows affected (0.01 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> select * from employee;
++-----+---------+-----------+------+--------+----------+------+
+| ssn | name    | addr      | sex  | salary | superssn | dno  |
++-----+---------+-----------+------+--------+----------+------+
+| 100 | kumar   | mysore    | m    |  50000 |     NULL | NULL |
+| 101 | rani    | mysore    | f    |  20000 |      100 | NULL |
+| 102 | scott   | bangalore | m    |  80000 |      100 | NULL |
+| 103 | manu    | bangalore | m    |  80000 |      100 | NULL |
+| 104 | thanu   | bangalore | f    |  30000 |     NULL | NULL |
+| 105 | bhalu   | kolkatha  | m    |  30000 |      104 | NULL |
+| 106 | jayanth | kolkatha  | m    |  60000 |      104 | NULL |
+| 107 | pallavi | kerala    | f    |  60000 |      104 | NULL |
+| 108 | yash    | kerala    | m    |  60000 |     NULL | NULL |
+| 109 | ashwini | chennai   | f    |  60000 |     NULL | NULL |
++-----+---------+-----------+------+--------+----------+------+
+10 rows in set (0.00 sec)
+mysql> desc dept;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| dno          | int(11)     | NO   | PRI | NULL    |       |
+| dname        | varchar(20) | YES  |     | NULL    |       |
+| mgrssn       | int(11)     | YES  | MUL | NULL    |       |
+| mgrstartdate | date        | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into dept values(1000,'development',100,'2000-2-20');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into dept values(1001,'testing',104,'2006-9-30');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into dept values(1002,'IOT',108,'2016-3-12');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from dept;
++------+-------------+--------+--------------+
+| dno  | dname       | mgrssn | mgrstartdate |
++------+-------------+--------+--------------+
+| 1000 | development |    100 | 2000-02-20   |
+| 1001 | testing     |    104 | 2006-09-30   |
+| 1002 | IOT         |    108 | 2016-03-12   |
++------+-------------+--------+--------------+
+3 rows in set (0.00 sec)
+
+mysql> update employee set superssn=108 where ssn=109;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee;
++-----+---------+-----------+------+--------+----------+------+
+| ssn | name    | addr      | sex  | salary | superssn | dno  |
++-----+---------+-----------+------+--------+----------+------+
+| 100 | kumar   | mysore    | m    |  50000 |     NULL | NULL |
+| 101 | rani    | mysore    | f    |  20000 |      100 | NULL |
+| 102 | scott   | bangalore | m    |  80000 |      100 | NULL |
+| 103 | manu    | bangalore | m    |  80000 |      100 | NULL |
+| 104 | thanu   | bangalore | f    |  30000 |     NULL | NULL |
+| 105 | bhalu   | kolkatha  | m    |  30000 |      104 | NULL |
+| 106 | jayanth | kolkatha  | m    |  60000 |      104 | NULL |
+| 107 | pallavi | kerala    | f    |  60000 |      104 | NULL |
+| 108 | yash    | kerala    | m    |  60000 |     NULL | NULL |
+| 109 | ashwini | chennai   | f    |  60000 |      108 | NULL |
++-----+---------+-----------+------+--------+----------+------+
+10 rows in set (0.00 sec)
+
+mysql> update employee set dno=1000 where ssn=100 or ssn=101 or ssn=102 or ssn=103;
+Query OK, 4 rows affected (0.00 sec)
+Rows matched: 4  Changed: 4  Warnings: 0
+
+mysql> select * from employee;
++-----+---------+-----------+------+--------+----------+------+
+| ssn | name    | addr      | sex  | salary | superssn | dno  |
++-----+---------+-----------+------+--------+----------+------+
+| 100 | kumar   | mysore    | m    |  50000 |     NULL | 1000 |
+| 101 | rani    | mysore    | f    |  20000 |      100 | 1000 |
+| 102 | scott   | bangalore | m    |  80000 |      100 | 1000 |
+| 103 | manu    | bangalore | m    |  80000 |      100 | 1000 |
+| 104 | thanu   | bangalore | f    |  30000 |     NULL | NULL |
+| 105 | bhalu   | kolkatha  | m    |  30000 |      104 | NULL |
+| 106 | jayanth | kolkatha  | m    |  60000 |      104 | NULL |
+| 107 | pallavi | kerala    | f    |  60000 |      104 | NULL |
+| 108 | yash    | kerala    | m    |  60000 |     NULL | NULL |
+| 109 | ashwini | chennai   | f    |  60000 |      108 | NULL |
++-----+---------+-----------+------+--------+----------+------+
+10 rows in set (0.00 sec)
+
+mysql> update employee set dno=1001 where ssn=104 or ssn=105 or ssn=106;
+Query OK, 3 rows affected (0.00 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> update employee set dno=1002 where ssn=107 or ssn=108 or ssn=109;
+Query OK, 3 rows affected (0.00 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> select * from employee;
++-----+---------+-----------+------+--------+----------+------+
+| ssn | name    | addr      | sex  | salary | superssn | dno  |
++-----+---------+-----------+------+--------+----------+------+
+| 100 | kumar   | mysore    | m    |  50000 |     NULL | 1000 |
+| 101 | rani    | mysore    | f    |  20000 |      100 | 1000 |
+| 102 | scott   | bangalore | m    |  80000 |      100 | 1000 |
+| 103 | manu    | bangalore | m    |  80000 |      100 | 1000 |
+| 104 | thanu   | bangalore | f    |  30000 |     NULL | 1001 |
+| 105 | bhalu   | kolkatha  | m    |  30000 |      104 | 1001 |
+| 106 | jayanth | kolkatha  | m    |  60000 |      104 | 1001 |
+| 107 | pallavi | kerala    | f    |  60000 |      104 | 1002 |
+| 108 | yash    | kerala    | m    |  60000 |     NULL | 1002 |
+| 109 | ashwini | chennai   | f    |  60000 |      108 | 1002 |
++-----+---------+-----------+------+--------+----------+------+
+10 rows in set (0.00 sec)
+
+mysql> update dept set dname='accounts' where dno=1002;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+mysql> select * from dept;
++------+-------------+--------+--------------+
+| dno  | dname       | mgrssn | mgrstartdate |
++------+-------------+--------+--------------+
+| 1000 | development |    100 | 2000-02-20   |
+| 1001 | testing     |    104 | 2006-09-30   |
+| 1002 | accounts    |    108 | 2016-03-12   |
++------+-------------+--------+--------------+
+3 rows in set (0.00 sec)
+
+mysql> update employee set dno=1001 where ssn=107;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee;
++-----+---------+-----------+------+--------+----------+------+
+| ssn | name    | addr      | sex  | salary | superssn | dno  |
++-----+---------+-----------+------+--------+----------+------+
+| 100 | kumar   | mysore    | m    |  50000 |     NULL | 1000 |
+| 101 | rani    | mysore    | f    |  20000 |      100 | 1000 |
+| 102 | scott   | bangalore | m    |  80000 |      100 | 1000 |
+| 103 | manu    | bangalore | m    |  80000 |      100 | 1000 |
+| 104 | thanu   | bangalore | f    |  30000 |     NULL | 1001 |
+| 105 | bhalu   | kolkatha  | m    |  30000 |      104 | 1001 |
+| 106 | jayanth | kolkatha  | m    |  60000 |      104 | 1001 |
+| 107 | pallavi | kerala    | f    |  60000 |      104 | 1001 |
+| 108 | yash    | kerala    | m    |  60000 |     NULL | 1002 |
+| 109 | ashwini | chennai   | f    |  60000 |      108 | 1002 |
++-----+---------+-----------+------+--------+----------+------+
+10 rows in set (0.00 sec)
+
+mysql> desc dlocation;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| dno   | int(11)     | NO   | PRI | NULL    |       |
+| dloc  | varchar(20) | NO   | PRI | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> insert into dlocation values(1000,'bangalore');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into dlocation values(1000,'mysore');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into dlocation values(1000,'chennai');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into dlocation values(1001,'chennai');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into dlocation values(1001,'mysore');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into dlocation values(1002,'chennai');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into dlocation values(1002,'mysore');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from dlocation;
++------+-----------+
+| dno  | dloc      |
++------+-----------+
+| 1000 | bangalore |
+| 1000 | chennai   |
+| 1000 | mysore    |
+| 1001 | chennai   |
+| 1001 | mysore    |
+| 1002 | chennai   |
+| 1002 | mysore    |
++------+-----------+
+7 rows in set (0.00 sec)
+
+mysql> desc project;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| pno       | int(11)     | NO   | PRI | NULL    |       |
+| pname     | varchar(20) | YES  |     | NULL    |       |
+| plocation | varchar(20) | YES  |     | NULL    |       |
+| dno       | int(11)     | YES  | MUL | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into dlocation values(5000,'IOT','bangalore',1000);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into project values(5000,'IOT','bangalore',1000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into project values(5001,'android','mysore',1000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into project values(5002,'web development','chennai',1001);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into project values(5003,'ios','chennai',1002);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into project values(5004,'ios','chennai',1000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into project values(5005,'ios','chennai',1001);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into project values(5006,'cyber','mysore',1001);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into project values(5007,'cyber','mysore',1002);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from project;
++------+-----------------+-----------+------+
+| pno  | pname           | plocation | dno  |
++------+-----------------+-----------+------+
+| 5000 | IOT             | bangalore | 1000 |
+| 5001 | android         | mysore    | 1000 |
+| 5002 | web development | chennai   | 1001 |
+| 5003 | ios             | chennai   | 1002 |
+| 5004 | ios             | chennai   | 1000 |
+| 5005 | ios             | chennai   | 1001 |
+| 5006 | cyber           | mysore    | 1001 |
+| 5007 | cyber           | mysore    | 1002 |
++------+-----------------+-----------+------+
+8 rows in set (0.00 sec)
+
+mysql> desc workson;
++-------+---------+------+-----+---------+-------+
+| Field | Type    | Null | Key | Default | Extra |
++-------+---------+------+-----+---------+-------+
+| ssn   | int(11) | NO   | PRI | NULL    |       |
+| pno   | int(11) | NO   | PRI | NULL    |       |
+| hours | int(11) | YES  |     | NULL    |       |
++-------+---------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into workson values(100,5000,10);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from workson;
++-----+------+-------+
+| ssn | pno  | hours |
++-----+------+-------+
+| 100 | 5000 |    10 |
++-----+------+-------+
+1 row in set (0.00 sec)
+
+mysql> select * from employee;
++-----+---------+-----------+------+--------+----------+------+
+| ssn | name    | addr      | sex  | salary | superssn | dno  |
++-----+---------+-----------+------+--------+----------+------+
+| 100 | kumar   | mysore    | m    |  50000 |     NULL | 1000 |
+| 101 | rani    | mysore    | f    |  20000 |      100 | 1000 |
+| 102 | scott   | bangalore | m    |  80000 |      100 | 1000 |
+| 103 | manu    | bangalore | m    |  80000 |      100 | 1000 |
+| 104 | thanu   | bangalore | f    |  30000 |     NULL | 1001 |
+| 105 | bhalu   | kolkatha  | m    |  30000 |      104 | 1001 |
+| 106 | jayanth | kolkatha  | m    |  60000 |      104 | 1001 |
+| 107 | pallavi | kerala    | f    |  60000 |      104 | 1001 |
+| 108 | yash    | kerala    | m    |  60000 |     NULL | 1002 |
+| 109 | ashwini | chennai   | f    |  60000 |      108 | 1002 |
++-----+---------+-----------+------+--------+----------+------+
+10 rows in set (0.00 sec)
+
+mysql> insert into workson values(101,5001,10);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into workson values(102,5004,10);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into workson values(103,5000,10);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into workson values(104,5002,20);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into workson values(105,5005,2);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into workson values(106,5006,2);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into workson values(107,5006,2);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into workson values(108,5003,12);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into workson values(109,5007,9);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from workson;
++-----+------+-------+
+| ssn | pno  | hours |
++-----+------+-------+
+| 100 | 5000 |    10 |
+| 101 | 5001 |    10 |
+| 102 | 5004 |    10 |
+| 103 | 5000 |    10 |
+| 104 | 5002 |    20 |
+| 105 | 5005 |     2 |
+| 106 | 5006 |     2 |
+| 107 | 5006 |     2 |
+| 108 | 5003 |    12 |
+| 109 | 5007 |     9 |
++-----+------+-------+
+10 rows in set (0.00 sec)
+
+mysql> select * from employee;
++-----+---------+-----------+------+--------+----------+------+
+| ssn | name    | addr      | sex  | salary | superssn | dno  |
++-----+---------+-----------+------+--------+----------+------+
+| 100 | kumar   | mysore    | m    |  50000 |     NULL | 1000 |
+| 101 | rani    | mysore    | f    |  20000 |      100 | 1000 |
+| 102 | scott   | bangalore | m    |  80000 |      100 | 1000 |
+| 103 | manu    | bangalore | m    |  80000 |      100 | 1000 |
+| 104 | thanu   | bangalore | f    |  30000 |     NULL | 1001 |
+| 105 | bhalu   | kolkatha  | m    |  30000 |      104 | 1001 |
+| 106 | jayanth | kolkatha  | m    |  60000 |      104 | 1001 |
+| 107 | pallavi | kerala    | f    |  60000 |      104 | 1001 |
+| 108 | yash    | kerala    | m    |  60000 |     NULL | 1002 |
+| 109 | ashwini | chennai   | f    |  60000 |      108 | 1002 |
++-----+---------+-----------+------+--------+----------+------+
+10 rows in set (0.00 sec)
+
+mysql> select * from dept;
++------+-------------+--------+--------------+
+| dno  | dname       | mgrssn | mgrstartdate |
++------+-------------+--------+--------------+
+| 1000 | development |    100 | 2000-02-20   |
+| 1001 | testing     |    104 | 2006-09-30   |
+| 1002 | accounts    |    108 | 2016-03-12   |
++------+-------------+--------+--------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from dlocation;
++------+-----------+
+| dno  | dloc      |
++------+-----------+
+| 1000 | bangalore |
+| 1000 | chennai   |
+| 1000 | mysore    |
+| 1001 | chennai   |
+| 1001 | mysore    |
+| 1002 | chennai   |
+| 1002 | mysore    |
++------+-----------+
+7 rows in set (0.00 sec)
+
+mysql> select * from project;
++------+-----------------+-----------+------+
+| pno  | pname           | plocation | dno  |
++------+-----------------+-----------+------+
+| 5000 | IOT             | bangalore | 1000 |
+| 5001 | android         | mysore    | 1000 |
+| 5002 | web development | chennai   | 1001 |
+| 5003 | ios             | chennai   | 1002 |
+| 5004 | ios             | chennai   | 1000 |
+| 5005 | ios             | chennai   | 1001 |
+| 5006 | cyber           | mysore    | 1001 |
+| 5007 | cyber           | mysore    | 1002 |
++------+-----------------+-----------+------+
+8 rows in set (0.00 sec)
+
+mysql> select * from workson;
++-----+------+-------+
+| ssn | pno  | hours |
++-----+------+-------+
+| 100 | 5000 |    10 |
+| 101 | 5001 |    10 |
+| 102 | 5004 |    10 |
+| 103 | 5000 |    10 |
+| 104 | 5002 |    20 |
+| 105 | 5005 |     2 |
+| 106 | 5006 |     2 |
+| 107 | 5006 |     2 |
+| 108 | 5003 |    12 |
+| 109 | 5007 |     9 |
++-----+------+-------+
+10 rows in set (0.00 sec)
+mysql> select *
+    -> from employee e,dept d
+    -> where e.dno=d.dno and dname='accounts';
++-----+---------+---------+------+--------+----------+------+------+----------+--------+--------------+
+| ssn | name    | addr    | sex  | salary | superssn | dno  | dno  | dname    | mgrssn | mgrstartdate |
++-----+---------+---------+------+--------+----------+------+------+----------+--------+--------------+
+| 108 | yash    | kerala  | m    |  60000 |     NULL | 1002 | 1002 | accounts |    108 | 2016-03-12   |
+| 109 | ashwini | chennai | f    |  60000 |      108 | 1002 | 1002 | accounts |    108 | 2016-03-12   |
++-----+---------+---------+------+--------+----------+------+------+----------+--------+--------------+
+2 rows in set (0.00 sec)
+
+mysql> select ssn,name,salary from employee e,dept d where e.dno=d.dno and dname='accounts';
++-----+---------+--------+
+| ssn | name    | salary |
++-----+---------+--------+
+| 108 | yash    |  60000 |
+| 109 | ashwini |  60000 |
++-----+---------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select ssn,name,salary,e.dno from employee e,dept d where e.dno=d.dno and dname='accounts';
++-----+---------+--------+------+
+| ssn | name    | salary | dno  |
++-----+---------+--------+------+
+| 108 | yash    |  60000 | 1002 |
+| 109 | ashwini |  60000 | 1002 |
++-----+---------+--------+------+
+2 rows in set (0.00 sec)
+
+mysql> select ssn,name,salary,d.dno from employee e,dept d where e.dno=d.dno and dname='accounts';
++-----+---------+--------+------+
+| ssn | name    | salary | dno  |
++-----+---------+--------+------+
+| 108 | yash    |  60000 | 1002 |
+| 109 | ashwini |  60000 | 1002 |
++-----+---------+--------+------+
+2 rows in set (0.00 sec)
+
+mysql> select name,salary
+    -> from employee e,project p,workson w
+    -> where e.ssn=w.ssn and p.pno=w.pno and pname='cyber';
++---------+--------+
+| name    | salary |
++---------+--------+
+| jayanth |  60000 |
+| pallavi |  60000 |
+| ashwini |  60000 |
++---------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select e.ssn,name,salary from employee e,project p,workson w where e.ssn=w.ssn and p.pno=w.pno and pname='cyber';
++-----+---------+--------+
+| ssn | name    | salary |
++-----+---------+--------+
+| 106 | jayanth |  60000 |
+| 107 | pallavi |  60000 |
+| 109 | ashwini |  60000 |
++-----+---------+--------+
+3 rows in set (0.00 sec)
+mysql> select * from employee;
++-----+---------+-----------+------+--------+----------+------+
+| ssn | name    | addr      | sex  | salary | superssn | dno  |
++-----+---------+-----------+------+--------+----------+------+
+| 100 | kumar   | mysore    | m    |  50000 |     NULL | 1000 |
+| 101 | rani    | mysore    | f    |  20000 |      100 | 1000 |
+| 102 | scott   | bangalore | m    |  80000 |      100 | 1000 |
+| 103 | manu    | bangalore | m    |  80000 |      100 | 1000 |
+| 104 | thanu   | bangalore | f    |  30000 |     NULL | 1001 |
+| 105 | bhalu   | kolkatha  | m    |  30000 |      104 | 1001 |
+| 106 | jayanth | kolkatha  | m    |  60000 |      104 | 1001 |
+| 107 | pallavi | kerala    | f    |  60000 |      104 | 1001 |
+| 108 | yash    | kerala    | m    |  60000 |     NULL | 1002 |
+| 109 | ashwini | chennai   | f    |  60000 |      108 | 1002 |
++-----+---------+-----------+------+--------+----------+------+
+10 rows in set (0.00 sec)
+
+mysql> select * from project;
++------+-----------------+-----------+------+
+| pno  | pname           | plocation | dno  |
++------+-----------------+-----------+------+
+| 5000 | IOT             | bangalore | 1000 |
+| 5001 | android         | mysore    | 1000 |
+| 5002 | web development | chennai   | 1001 |
+| 5003 | ios             | chennai   | 1002 |
+| 5004 | ios             | chennai   | 1000 |
+| 5005 | ios             | chennai   | 1001 |
+| 5006 | cyber           | mysore    | 1001 |
+| 5007 | cyber           | mysore    | 1002 |
++------+-----------------+-----------+------+
+8 rows in set (0.00 sec)
+
+mysql> select * from workson;
++-----+------+-------+
+| ssn | pno  | hours |
++-----+------+-------+
+| 100 | 5000 |    10 |
+| 101 | 5001 |    10 |
+| 102 | 5004 |    10 |
+| 103 | 5000 |    10 |
+| 104 | 5002 |    20 |
+| 105 | 5005 |     2 |
+| 106 | 5006 |     2 |
+| 107 | 5006 |     2 |
+| 108 | 5003 |    12 |
+| 109 | 5007 |     9 |
++-----+------+-------+
+10 rows in set (0.00 sec)
+
+mysql> select p.pno,pname,plocation,dno
+    -> from employee e,project p,workson w
+    -> where e.ssn=w.ssn and p.pno=w.pno and name='scott';
+ERROR 1052 (23000): Column 'dno' in field list is ambiguous
+mysql> select p.pno,pname,plocation,p.dno from employee e,project p,workson w where e.ssn=w.ssn and p.pno=w.pno and name='scott';
++------+-------+-----------+------+
+| pno  | pname | plocation | dno  |
++------+-------+-----------+------+
+| 5004 | ios   | chennai   | 1000 |
++------+-------+-----------+------+
+1 row in set (0.00 sec)
+
+mysql> select e.ssn,name,sex,salary
+    -> from employee e,project p,workson w
+    -> where e.ssn=w.ssn and p.pno=w.pno and sex='m' and pname='ios';
++-----+-------+------+--------+
+| ssn | name  | sex  | salary |
++-----+-------+------+--------+
+| 108 | yash  | m    |  60000 |
+| 102 | scott | m    |  80000 |
+| 105 | bhalu | m    |  30000 |
++-----+-------+------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select * from employee;
++-----+---------+-----------+------+--------+----------+------+
+| ssn | name    | addr      | sex  | salary | superssn | dno  |
++-----+---------+-----------+------+--------+----------+------+
+| 100 | kumar   | mysore    | m    |  50000 |     NULL | 1000 |
+| 101 | rani    | mysore    | f    |  20000 |      100 | 1000 |
+| 102 | scott   | bangalore | m    |  80000 |      100 | 1000 |
+| 103 | manu    | bangalore | m    |  80000 |      100 | 1000 |
+| 104 | thanu   | bangalore | f    |  30000 |     NULL | 1001 |
+| 105 | bhalu   | kolkatha  | m    |  30000 |      104 | 1001 |
+| 106 | jayanth | kolkatha  | m    |  60000 |      104 | 1001 |
+| 107 | pallavi | kerala    | f    |  60000 |      104 | 1001 |
+| 108 | yash    | kerala    | m    |  60000 |     NULL | 1002 |
+| 109 | ashwini | chennai   | f    |  60000 |      108 | 1002 |
++-----+---------+-----------+------+--------+----------+------+
+10 rows in set (0.00 sec)
+
+mysql> select * from dept;
++------+-------------+--------+--------------+
+| dno  | dname       | mgrssn | mgrstartdate |
++------+-------------+--------+--------------+
+| 1000 | development |    100 | 2000-02-20   |
+| 1001 | testing     |    104 | 2006-09-30   |
+| 1002 | accounts    |    108 | 2016-03-12   |
++------+-------------+--------+--------------+
+3 rows in set (0.00 sec)
+
+mysql> select sum(salary),max(salary),min(salary),avg(salary)
+    -> from employee e,dept d
+    -> where e.dno=d.dno and dname='accounts';
++-------------+-------------+-------------+-------------+
+| sum(salary) | max(salary) | min(salary) | avg(salary) |
++-------------+-------------+-------------+-------------+
+|      120000 |       60000 |       60000 |  60000.0000 |
++-------------+-------------+-------------+-------------+
+1 row in set (0.00 sec)
+
+mysql> update employee set salary=75000 where ssn=109;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select sum(salary),max(salary),min(salary),avg(salary) from employee e,dept d where e.dno=d.dno and dname='accounts';
++-------------+-------------+-------------+-------------+
+| sum(salary) | max(salary) | min(salary) | avg(salary) |
++-------------+-------------+-------------+-------------+
+|      135000 |       75000 |       60000 |  67500.0000 |
++-------------+-------------+-------------+-------------+
+1 row in set (0.00 sec)
+
+mysql> select dname,sum(salary),max(salary),min(salary),avg(salary) from employee e,dept d where e.dno=d.dno and dname='accounts';
++----------+-------------+-------------+-------------+-------------+
+| dname    | sum(salary) | max(salary) | min(salary) | avg(salary) |
++----------+-------------+-------------+-------------+-------------+
+| accounts |      135000 |       75000 |       60000 |  67500.0000 |
++----------+-------------+-------------+-------------+-------------+
+1 row in set (0.00 sec)
+
+
+
